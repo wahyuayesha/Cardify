@@ -38,7 +38,7 @@ class DatabaseService {
             id_pack INTEGER,
             front TEXT,
             back TEXT,
-            flag INTEGER,
+            flag INTEGER DEFAULT 0,,
             FOREIGN KEY (id_pack) REFERENCES packs (id) ON DELETE CASCADE
           )
         ''');
