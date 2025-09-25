@@ -8,7 +8,7 @@
 // 6. Buat flashcard sendiri (coming soon)
 // *//
 
-import 'package:cardify/features/flashcard/data/datasource/database_service.dart';
+import 'package:cardify/core/services/database_service.dart';
 import 'package:cardify/features/flashcard/data/models/flashcard_model.dart';
 import 'package:cardify/features/flashcard/data/models/pack_model.dart';
 
@@ -39,6 +39,7 @@ class FlashcardLocalDataSource {
           'flag': flashcard.flag,
         });
       }
+      await debugPrintDatabase();
     } catch (e) {
       throw Exception('Save new card pack is failed:\n$e');
     }
@@ -83,7 +84,7 @@ class FlashcardLocalDataSource {
         // ambil flashcards sesuai pack_id
         final flashcards = await db.query(
           'flashcards',
-          where: 'pack_id = ?',
+          where: 'id_pack = ?',
           whereArgs: [packMap['id']],
         );
 
@@ -123,7 +124,12 @@ class FlashcardLocalDataSource {
   Future<void> updateFlag(int cardId, int newValue) async {
     try {
       final db = await databaseService.database;
-      await db.update('flashcards', {'flag': newValue});
+      await db.update(
+        'flashcards',
+        {'flag': newValue},
+        where: 'id = ?',
+        whereArgs: [cardId],
+      );
     } catch (e) {
       throw Exception('Failed to update flag:\n$e');
     }
@@ -136,6 +142,23 @@ class FlashcardLocalDataSource {
       await db.delete('flashcards', where: 'id = ?', whereArgs: [cardId]);
     } catch (e) {
       throw Exception('Failed to delete card:\n$e');
+    }
+  }
+
+  // DEBUG FUNCTION
+  Future<void> debugPrintDatabase() async {
+    final db = await databaseService.database;
+    final packs = await db.query('packs');
+    final flashcards = await db.query('flashcards');
+
+    print("=== PACKS ===");
+    for (var row in packs) {
+      print(row);
+    }
+
+    print("=== FLASHCARDS ===");
+    for (var row in flashcards) {
+      print(row);
     }
   }
 }

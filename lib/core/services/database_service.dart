@@ -1,33 +1,41 @@
-// ignore: depend_on_referenced_packages
+// lib/core/services/database_service.dart
+// import yang diperlukan
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
   static Database? _db;
-  static final DatabaseService _instance = DatabaseService._constructor();
 
-  DatabaseService._constructor();
+  // public constructor supaya mudah di-inject
+  DatabaseService();
 
   Future<Database> get database async {
     if (_db != null) return _db!;
-    _db = await getDatabase();
+    _db = await _getDatabase();
     return _db!;
   }
 
-  Future<Database> getDatabase() async {
+  // jika mau pre-initialize, panggil init() dari luar
+  Future<void> init() async {
+    await database;
+  }
+
+  Future<Database> _getDatabase() async {
     final databaseDirPath = await getDatabasesPath();
     final databasePath = join(databaseDirPath, 'cardify.db');
+
     final database = await openDatabase(
       databasePath,
+      version: 1,
       onCreate: (db, version) async {
         // parent: packs
         await db.execute('''
           CREATE TABLE packs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
-            description TEXT
+            description TEXT,
             category TEXT,
-            createdAt TEXT,
+            createdAt TEXT
           )
         ''');
 
@@ -38,12 +46,13 @@ class DatabaseService {
             id_pack INTEGER,
             front TEXT,
             back TEXT,
-            flag INTEGER DEFAULT 0,,
+            flag INTEGER DEFAULT 0,
             FOREIGN KEY (id_pack) REFERENCES packs (id) ON DELETE CASCADE
           )
         ''');
       },
     );
+
     return database;
   }
 }

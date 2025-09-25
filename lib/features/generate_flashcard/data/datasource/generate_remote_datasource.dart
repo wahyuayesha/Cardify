@@ -1,14 +1,16 @@
 import 'dart:convert';
+
+import 'package:cardify/core/functions/json_parser.dart';
 import 'package:cardify/features/flashcard/data/models/flashcard_model.dart';
 import 'package:cardify/features/flashcard/data/models/pack_model.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
-class FlashcardRemoteDataSource {
+class GenerateRemoteDatasource {
   final GenerativeModel generativeModel;
 
-  FlashcardRemoteDataSource({required this.generativeModel});
+  GenerateRemoteDatasource({required this.generativeModel});
 
-  Future<PackModel> createFlashcard(String content) async {
+  Future<PackModel> generateFlashcard(String content) async {
     final response = await generativeModel.generateContent([
       Content.text('''
       Create a flashcard pack in valid JSON format with the following structure:
@@ -38,7 +40,7 @@ class FlashcardRemoteDataSource {
     }
 
     try {
-      final Map<String, dynamic> json = jsonDecode(generated);
+      final Map<String, dynamic> json = parseCleanJson(generated);
 
       final flashcards = (json['flashcards'] as List<dynamic>)
           .map((item) => FlashcardModel.fromMap(item))
