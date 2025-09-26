@@ -1,20 +1,10 @@
 import 'package:cardify/core/error/failures.dart';
-import 'package:cardify/features/flashcard/data/models/pack_model.dart';
+import 'package:cardify/features/flashcard/domain/entities/pack_entity.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class FlashcardRepository {
-  // // remote
-  // Future<Either<Failure, String>> generateFlashcard(String topic);
-
-  // // local
-  // Future<Either<Failure, Unit>> saveFlashcard(
-  //   String title,
-  //   String description,
-  //   String category,
-  // );
-
-  Future<Either<Failure, Unit>> saveFlashcard(PackModel pack);
-  Future<Either<Failure, List<PackModel>>> getFlashcards(
+  Future<Either<Failure, Unit>> saveFlashcard(PackEntity pack);
+  Future<Either<Failure, List<PackEntity>>> getFlashcards(
     String? keyword,
     String? sortBy,
   );

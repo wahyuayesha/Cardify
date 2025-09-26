@@ -1,21 +1,23 @@
 import 'package:cardify/core/error/failures.dart';
 import 'package:cardify/features/flashcard/data/datasource/flashcard_local_datasource.dart';
 import 'package:cardify/features/flashcard/data/models/pack_model.dart';
+import 'package:cardify/features/flashcard/domain/entities/pack_entity.dart';
 import 'package:cardify/features/flashcard/domain/repositories/flashcard_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class FlashcardRepoImpl implements FlashcardRepository {
   final FlashcardLocalDataSource localDataSource;
 
-  FlashcardRepoImpl({
-    required this.localDataSource,
-  });
+  FlashcardRepoImpl({required this.localDataSource});
 
   //simpan flashcard
   @override
-  Future<Either<Failure, Unit>> saveFlashcard(PackModel pack) async {
+  Future<Either<Failure, Unit>> saveFlashcard(PackEntity pack) async {
     try {
-      await localDataSource.saveFlashcard(pack);
+      // convert entity ke model untuk dibawa ke data layer
+      final model = PackModel.fromEntity(pack);
+      // save flashcard
+      await localDataSource.saveFlashcard(model);
       return Right(unit);
     } catch (e) {
       return Left(CacheFailure('$e'));
@@ -24,13 +26,14 @@ class FlashcardRepoImpl implements FlashcardRepository {
 
   // ambil flashcard
   @override
-  Future<Either<Failure, List<PackModel>>> getFlashcards(
+  Future<Either<Failure, List<PackEntity>>> getFlashcards(
     String? keyword,
     String? sortBy,
   ) async {
     try {
       final packs = await localDataSource.getFlashcards(keyword, sortBy);
-      return Right(packs);
+      final packsEntity = packs.map((p) => p.toEntity()).toList();
+      return Right(packsEntity);
     } catch (e) {
       return Left(CacheFailure('$e'));
     }

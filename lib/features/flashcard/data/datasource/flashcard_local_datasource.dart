@@ -22,12 +22,13 @@ class FlashcardLocalDataSource {
     try {
       final db = await databaseService.database;
 
-      // simpan pack dulu
+      // simpan pack dulu 
       final packId = await db.insert('packs', {
         'title': pack.title,
         'description': pack.description,
         'category': pack.category,
         'createdAt': pack.createdAt,
+        'origin' : pack.origin
       });
 
       // simpan setiap flashcards

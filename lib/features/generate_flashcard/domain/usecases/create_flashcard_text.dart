@@ -26,7 +26,8 @@ class CreateFlashcardText {
     final generateResult = await generateRepository.generateFlashcard(content);
 
     return generateResult.fold((failure) => Left(failure), (pack) async {
-      // Simpan ke database
+      // Simpan hasil generate ke database
+      print('❔PACK: $pack');
       return await flashcardRepository.saveFlashcard(pack);
     });
   }

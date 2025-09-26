@@ -18,8 +18,10 @@ class CreateFlashcardImage {
   });
 
   Future<Either<Failure, Unit>> call(File imageFile) async {
+    // ekstrak teks
     final result = await ocrRepository.extractText(imageFile);
     print('🗒️HASIL OCR: $result');
+
     return result.fold((failure) => Left(failure), (textContent) async {
       // Validasi panjang note/konten
       if (textContent.length <= 100) {
@@ -30,13 +32,13 @@ class CreateFlashcardImage {
         );
       }
 
-      // Membuat flashcard
+      // generate flashcard pack
       final generateResult = await generateRepository.generateFlashcard(
         textContent,
       );
 
       return generateResult.fold((failure) => Left(failure), (pack) {
-        // Simpan ke database
+        // Simpan hasil generate ke database
         print('❔PACK: $pack');
         return flashcardRepository.saveFlashcard(pack);
       });

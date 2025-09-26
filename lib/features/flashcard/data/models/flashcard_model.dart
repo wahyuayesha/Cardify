@@ -57,7 +57,7 @@ class FlashcardModel {
       id: id ?? 0, // default 0 kalau belum ada id
       front: front,
       back: back,
-      isFlagged: flag == 1,
+      flag: flag,
     );
   }
 
@@ -67,7 +67,7 @@ class FlashcardModel {
       id: entity.id == 0 ? null : entity.id, // null biar auto-increment di DB
       front: entity.front,
       back: entity.back,
-      flag: entity.isFlagged ? 1 : 0,
+      flag: entity.flag,
       idPack: idPack,
     );
   }

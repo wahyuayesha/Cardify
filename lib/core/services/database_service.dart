@@ -35,7 +35,8 @@ class DatabaseService {
             title TEXT NOT NULL,
             description TEXT,
             category TEXT,
-            createdAt TEXT
+            createdAt TEXT,
+            origin TEXT
           )
         ''');
 

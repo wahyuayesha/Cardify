@@ -1,13 +1,13 @@
 class FlashcardEntity {
-  final int id;
+  final int? id;
   final String front;
   final String back;
-  final bool isFlagged;
+  final int flag;
 
   FlashcardEntity({
-    required this.id,
+    this.id,
     required this.front,
     required this.back,
-    required this.isFlagged,
+    this.flag = 0,
   });
 }

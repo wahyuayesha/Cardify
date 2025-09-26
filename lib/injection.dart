@@ -54,8 +54,8 @@ Future<void> initDependencies() async {
   // GENERATE
   // datasource
   final model = GenerativeModel(
-    model: "gemini-1.5-flash",
-    apiKey: AppConfig.geminiApiKey,
+    model: AppConfig.aiModel,
+    apiKey: AppConfig.aiApiKey,
   );
   Get.lazyPut<GenerateRemoteDatasource>(
     () => GenerateRemoteDatasource(generativeModel: model),
