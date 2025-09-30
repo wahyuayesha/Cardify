@@ -13,7 +13,7 @@ class CreateFlashcardText {
   });
 
   Future<Either<Failure, Unit>> call(String content) async {
-    // Validasi panjang note/konten
+    // Validasi panjang note/konten agar AI memiliki cukup konteks
     if (content.length <= 100) {
       return Left(
         ValidationFailure(

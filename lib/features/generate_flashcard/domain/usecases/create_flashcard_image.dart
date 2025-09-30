@@ -23,7 +23,7 @@ class CreateFlashcardImage {
     print('🗒️HASIL OCR: $result');
 
     return result.fold((failure) => Left(failure), (textContent) async {
-      // Validasi panjang note/konten
+      // Validasi panjang note/konten agar AI memiliki cukup konteks
       if (textContent.length <= 100) {
         return Left(
           ValidationFailure(

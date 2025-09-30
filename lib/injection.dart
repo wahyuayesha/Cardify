@@ -5,6 +5,7 @@ import 'package:cardify/core/services/database_service.dart'
 import 'package:cardify/features/flashcard/data/datasource/flashcard_local_datasource.dart';
 import 'package:cardify/features/flashcard/data/repo_impl/flashcard_repo_impl.dart';
 import 'package:cardify/features/flashcard/domain/repositories/flashcard_repository.dart';
+import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
 import 'package:cardify/features/generate_flashcard/data/datasource/generate_remote_datasource.dart';
 import 'package:cardify/features/generate_flashcard/data/repo_impl/generate_repo_impl.dart';
 import 'package:cardify/features/generate_flashcard/domain/repositories/generate_repository.dart';
@@ -41,6 +42,7 @@ Future<void> initDependencies() async {
   // usecase
 
   // controller
+  Get.put(ThemeController(), permanent: true);
 
   // OCR
   // datasource

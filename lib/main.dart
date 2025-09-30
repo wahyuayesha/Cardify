@@ -1,10 +1,15 @@
+import 'package:cardify/core/theme/dark_theme.dart';
+import 'package:cardify/core/theme/light_theme.dart';
+import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
 import 'package:cardify/features/generate_flashcard/presentation/pages/debug_page.dart';
 import 'package:cardify/features/ocr/presentation/pages/debug_ocr_page.dart';
+import 'package:cardify/features/splash/presentation/pages/splash_page.dart';
 import 'package:cardify/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:flutter_flip_card/flipcard/flip_card.dart';
 import 'package:flutter_flip_card/modal/flip_side.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() async {
@@ -12,22 +17,25 @@ void main() async {
 
   await initDependencies();
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final ThemeController themeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DebugPage(),
+    return Obx(
+      () => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: themeController.theme,
+        home: SplashPage(),
+      ),
     );
   }
 }
-
-
 
 // class FlashcardList extends StatefulWidget {
 //   const FlashcardList({super.key});
