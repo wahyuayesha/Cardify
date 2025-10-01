@@ -38,7 +38,7 @@ class PrimaryButton extends StatelessWidget {
           children: [
             if (prefixIcon != null) ...[
               Icon(prefixIcon, color: AppColors.baseLight),
-              const SizedBox(width: 8), 
+              const SizedBox(width: 8),
             ],
             Text(
               text,

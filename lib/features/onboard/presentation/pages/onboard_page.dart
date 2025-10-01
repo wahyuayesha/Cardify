@@ -2,6 +2,7 @@ import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/core/widgets/primary_button.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
+import 'package:cardify/features/onboard/presentation/controller/onboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -15,6 +16,7 @@ class OnboardPage extends StatefulWidget {
 
 class _OnboardPageState extends State<OnboardPage> {
   final controller = PageController(initialPage: 0);
+  final OnboardController onboardController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,7 @@ class _OnboardPageState extends State<OnboardPage> {
                       height: 260,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(39),
-                        border: Border.all(
-                          color: AppColors.borderTrans,
-                        ),
+                        border: Border.all(color: AppColors.borderTrans),
                         color: AppColors.fillTrans,
                       ),
                     ),
@@ -139,9 +139,7 @@ class _OnboardPageState extends State<OnboardPage> {
                       height: 260,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(39),
-                        border: Border.all(
-                          color: AppColors.borderTrans,
-                        ),
+                        border: Border.all(color: AppColors.borderTrans),
                         color: AppColors.fillTrans,
                       ),
                     ),
@@ -179,9 +177,14 @@ class _OnboardPageState extends State<OnboardPage> {
                               const Spacer(),
                               PrimaryButton(
                                 width: 200,
-                                onPressed: () {
-                                  // TODO: Simpan info bahwa user sudah melewati onboarding
-                                  Get.off(MainPage(), transition: Transition.cupertino);
+                                onPressed: () async {
+                                  // Set bahwa user sudah tidak first time buka aplikasi
+                                  await onboardController
+                                      .setNotFirstTimeUsecase();
+                                  Get.off(
+                                    MainPage(),
+                                    transition: Transition.cupertino,
+                                  );
                                 },
                                 text: 'Get Started',
                               ),

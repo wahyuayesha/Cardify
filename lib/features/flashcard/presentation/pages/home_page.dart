@@ -3,6 +3,7 @@ import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/core/widgets/card_button.dart';
 import 'package:cardify/core/widgets/svg_icon.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
+import 'package:cardify/features/generate_flashcard/presentation/pages/paste_page.dart';
 import 'package:cardify/features/generate_flashcard/presentation/pages/photo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -146,7 +147,9 @@ class HomePage extends StatelessWidget {
                           title: 'Paste Text',
                           desc: 'Convert text to\ncards',
                           gradient: AppGradients.yellowButton,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(PastePage());
+                          },
                         ),
                       ),
                     ],

@@ -15,15 +15,46 @@ import 'package:cardify/features/generate_flashcard/presentation/controllers/gen
 import 'package:cardify/features/ocr/data/datasource/ocr_local_datasource.dart';
 import 'package:cardify/features/ocr/data/repo_impl/ocr_repo_impl.dart';
 import 'package:cardify/features/ocr/domain/repository/ocr_repository.dart';
+import 'package:cardify/features/onboard/data/datasource/onboard_local_datasource.dart';
+import 'package:cardify/features/onboard/data/repo_impl/onboard_repo_impl.dart';
+import 'package:cardify/features/onboard/domain/repositories/onboard_repository.dart';
+import 'package:cardify/features/onboard/domain/usecases/isFirstTime_usecase.dart';
+import 'package:cardify/features/onboard/domain/usecases/setNotFirstTime_usecase.dart';
+import 'package:cardify/features/onboard/presentation/controller/onboard_controller.dart';
 import 'package:get/get.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 Future<void> initDependencies() async {
+  // ON BOARD
+  // datasource
+  Get.lazyPut(() => OnboardLocalDatasource(), fenix: true);
+  // repository
+  Get.lazyPut<OnboardRepository>(
+    () => OnboardRepoImpl(onboardLocalDatasource: Get.find()),
+    fenix: true,
+  );
+  // usecases
+  Get.lazyPut(
+    () => IsfirstTimeUsecase(onboardRepository: Get.find()),
+    fenix: true,
+  );
+  Get.lazyPut(
+    () => SetNotFirstTimeUsecase(onboardRepository: Get.find()),
+    fenix: true,
+  );
+  // controller
+  Get.lazyPut(
+    () => OnboardController(
+      isfirstTimeUsecase: Get.find(),
+      setNotFirstTimeUsecase: Get.find(),
+    ),
+    fenix: true,
+  );
+
   // DATABASE SERVICE
   // buat instance manual
   final databaseService = DatabaseService();
   await databaseService.init();
-
   // injek ke GetX
   Get.put<DatabaseService>(databaseService, permanent: true);
 
@@ -38,9 +69,7 @@ Future<void> initDependencies() async {
     () => FlashcardRepoImpl(localDataSource: Get.find()),
     fenix: true,
   );
-
   // usecase
-
   // controller
   Get.put(ThemeController(), permanent: true);
 
@@ -63,13 +92,11 @@ Future<void> initDependencies() async {
     () => GenerateRemoteDatasource(generativeModel: model),
     fenix: true,
   );
-
   // repository
   Get.lazyPut<GenerateRepository>(
     () => GenerateRepoImpl(remoteDatasource: Get.find()),
     fenix: true,
   );
-
   // usecase
   Get.lazyPut(
     () => CreateFlashcardImage(
@@ -86,7 +113,6 @@ Future<void> initDependencies() async {
     ),
     fenix: true,
   );
-
   // controller
   Get.lazyPut(
     () => GenerateController(

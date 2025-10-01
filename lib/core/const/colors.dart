@@ -9,7 +9,7 @@ class AppColors {
 
   // TEXT
   static Color subtitle = Color(0xFF000000).withOpacity(0.25);
-  static Color subtitleLight = Color(0xFFFFFFFF).withOpacity(0.25);
+  static Color subtitleLight = Color(0xFFFFFFFF).withOpacity(0.5);
 
 
   // BRAND

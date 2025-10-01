@@ -1,5 +1,7 @@
 import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
+import 'package:cardify/features/main/presentation/pages/main_page.dart';
+import 'package:cardify/features/onboard/presentation/controller/onboard_controller.dart';
 import 'package:cardify/features/onboard/presentation/pages/onboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +15,8 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  final OnboardController onboardController = Get.find();
+
   @override
   void initState() {
     super.initState();
@@ -23,19 +27,29 @@ class _SplashPageState extends State<SplashPage> {
     final start = DateTime.now();
 
     // TODO: Implementasi ambil semua data flashcards (mempersiapkan untuk menampilkan jumlah flashcards dan 3 flashcard terbaru di home )
-
+    final isFirstTime = await onboardController.firstTimeStatus();
+    print('❔Is First Time = $isFirstTime');
+    
     final elapsed = DateTime.now().difference(start);
     final remaining = Duration(seconds: 5) - elapsed;
     if (remaining > Duration.zero) {
       await Future.delayed(remaining);
     }
 
-    // TODO: pindah halaman home/intro tergantung apakah pertama kali login or no
-    Get.off(
-      OnboardPage(),
-      transition: Transition.fade,
-      duration: Duration(seconds: 3),
-    );
+    //pindah halaman home/intro tergantung apakah pertama kali buka aplikasi atau tidak
+    if (isFirstTime == true) {
+      Get.off(
+        OnboardPage(),
+        transition: Transition.fade,
+        duration: Duration(seconds: 3),
+      );
+    } else {
+      Get.off(
+        MainPage(),
+        transition: Transition.fade,
+        duration: Duration(seconds: 3),
+      );
+    }
   }
 
   @override

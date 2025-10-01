@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_image.dart';
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_text.dart';
+import 'package:cardify/features/main/presentation/pages/main_page.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -20,6 +22,40 @@ class GenerateController extends GetxController {
     required this.createFlashcardImage,
     required this.createFlashcardText,
   });
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    // tampilkan error sekali tiap kali berubah
+    ever(errorMessage, (msg) {
+      if (msg.toString().isNotEmpty) {
+        Get.snackbar(
+          'Error',
+          msg.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withOpacity(0.8),
+          colorText: Colors.white,
+        );
+        errorMessage.value = '';
+      }
+    });
+
+    // tampilkan success sekali tiap kali berubah
+    ever(successMessage, (msg) {
+      if (msg.toString().isNotEmpty) {
+        Get.snackbar(
+          'Success',
+          msg.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green.withOpacity(0.8),
+          colorText: Colors.white,
+        );
+         Get.to(() => MainPage());
+        successMessage.value = '';
+      }
+    });
+  }
 
   // CREATE FLASHCARD
   Future<void> createFlashcard({String? content}) async {

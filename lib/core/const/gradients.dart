@@ -19,6 +19,15 @@ class AppGradients {
     end: Alignment.topCenter,
   );
 
+  static const Gradient backgroundDark = LinearGradient(
+    colors: [
+      AppColors.primary, // merah tua
+      Color.fromARGB(255, 110, 7, 31), // merah muda
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
   static const Gradient header = LinearGradient(
     colors: [
       AppColors.secondary, // merah muda
