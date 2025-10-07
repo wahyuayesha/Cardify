@@ -1,16 +1,29 @@
+import 'dart:math';
+
 import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
+import 'package:cardify/core/functions/time_converter.dart';
 import 'package:cardify/core/widgets/card_button.dart';
+import 'package:cardify/core/widgets/category_pill.dart';
 import 'package:cardify/core/widgets/svg_icon.dart';
+import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
+import 'package:cardify/features/flashcard/presentation/controller/time_controller.dart';
+import 'package:cardify/features/flashcard/presentation/pages/detail_page.dart';
 import 'package:cardify/features/generate_flashcard/presentation/pages/paste_page.dart';
 import 'package:cardify/features/generate_flashcard/presentation/pages/photo_page.dart';
+import 'package:cardify/features/main/presentation/controller/navbar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final FlashcardController flashcardController = Get.find();
+  final ThemeController themeController = Get.find();
+  final TimeController timeController = Get.find();
+  final NavbarController navbarController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +91,15 @@ class HomePage extends StatelessWidget {
                                   'Total Card Packs Created',
                                   style: TextStyle(color: AppColors.baseLight),
                                 ),
-                                Text(
-                                  '000',
-                                  style: TextStyle(
-                                    color: AppColors.baseLight,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
+                                Obx(
+                                  () => Text(
+                                    flashcardController.userPacks.length
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: AppColors.baseLight,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ), // TODO: Menggunakan data asli
                               ],
@@ -167,7 +183,9 @@ class HomePage extends StatelessWidget {
                       fit: BoxFit.none,
                       color: AppColors.baseLight,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      navbarController.setOnItemTaped(1);
+                    },
                   ),
                   const SizedBox(height: 35),
 
@@ -179,13 +197,178 @@ class HomePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  Obx(() {
+                    // jika flascard kosong
+                    if (flashcardController.recentPacks.isEmpty) {
+                      return Column(
+                        children: [
+                          SizedBox(height: 20),
+                          themeController.isDark.value
+                              ? Image.asset(
+                                  'assets/images/decoration/empty_dark.png',
+                                  scale: 3,
+                                )
+                              : Image.asset(
+                                  'assets/images/decoration/empty.png',
+                                  scale: 3,
+                                ),
+                          SizedBox(height: 10),
 
-                  // TODO: Implemen data asli
-                  Container(height: 330, color: AppColors.baseLight),
+                          Text(
+                            'No Recent Flashcards',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              color: AppColors.subtitle,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+
+                    // jika berisi
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: min(3, flashcardController.recentPacks.length),
+                      itemBuilder: (context, index) {
+                        // CARD PACK TILE
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: GestureDetector(
+                            onTap: () => Get.to(
+                              DetailPage(
+                                cardPack:
+                                    flashcardController.recentPacks[index],
+                              ),
+                            ),
+                            child: Container(
+                              height: 120,
+                              decoration: BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).scaffoldBackgroundColor,
+                                border: Border.all(
+                                  color: Theme.of(context).dividerColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Judul card pack
+                                          Text(
+                                            flashcardController
+                                                .recentPacks[index]
+                                                .title,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+
+                                          // Deskripsi card pack
+                                          Text(
+                                            flashcardController
+                                                .recentPacks[index]
+                                                .description,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color:
+                                                  themeController.isDark.value
+                                                  ? AppColors.subtitleLight
+                                                  : AppColors.subtitle,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          Spacer(),
+
+                                          // pill kategori
+                                          CategoryPill(
+                                            category: Text(
+                                              flashcardController
+                                                  .recentPacks[index]
+                                                  .category,
+                                              style: TextStyle(
+                                                color: AppColors.category,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+
+                                    // Waktu pembuatan & icon
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Obx(() {
+                                          final _ = timeController.now.value;
+
+                                          return Text(
+                                            convertTime(
+                                              flashcardController
+                                                  .recentPacks[index]
+                                                  .createdAt,
+                                            ),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  themeController.isDark.value
+                                                  ? AppColors.subtitleLight
+                                                  : AppColors.subtitle,
+                                            ),
+                                          );
+                                        }),
+                                        Container(
+                                          height: 40,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                            gradient: AppGradients.category,
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
+                                          ),
+                                          child: AppSvgIcon(
+                                            'assets/icons/flashcards.svg',
+                                            color: AppColors.baseLight,
+                                            size: 15,
+                                            fit: BoxFit.none,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                        // CARD PACK TILE END
+                      },
+                    );
+                  }),
                 ],
               ),
             ),

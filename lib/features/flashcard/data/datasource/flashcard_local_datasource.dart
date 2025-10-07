@@ -22,13 +22,13 @@ class FlashcardLocalDataSource {
     try {
       final db = await databaseService.database;
 
-      // simpan pack dulu 
+      // simpan pack dulu
       final packId = await db.insert('packs', {
         'title': pack.title,
         'description': pack.description,
         'category': pack.category,
         'createdAt': pack.createdAt,
-        'origin' : pack.origin
+        'origin': pack.origin,
       });
 
       // simpan setiap flashcards
@@ -47,14 +47,14 @@ class FlashcardLocalDataSource {
   }
 
   // AMBIL PACK & FLASHCARD DARI DATABASE
-  Future<List<PackModel>> getFlashcards(String? keyword, String? sortBy) async {
+  Future<List<PackModel>> getFlashcards(String? keyword, String sortBy) async {
     try {
       final db = await databaseService.database;
 
       // buat query dasar
       String whereClause = '';
       List<Object?> whereArgs = [];
-      String orderBy = 'createdAt DESC'; // default sort
+      String orderBy = 'createdAt DESC'; 
 
       // filter keyword
       if (keyword != null && keyword.isNotEmpty) {
@@ -63,12 +63,12 @@ class FlashcardLocalDataSource {
       }
 
       // tentukan sort
-      if (sortBy != null && sortBy.isNotEmpty) {
-        if (sortBy == 'title') {
-          orderBy = 'title ASC';
-        } else if (sortBy == 'category') {
-          orderBy = 'category ASC';
-        }
+      if (sortBy == 'created') {
+        orderBy = 'createdAt DESC';
+      } else if (sortBy == 'title') {
+        orderBy = 'title ASC';
+      } else if (sortBy == 'category') {
+        orderBy = 'category ASC';
       }
 
       // ambil data packs
@@ -137,12 +137,12 @@ class FlashcardLocalDataSource {
   }
 
   // HAPUS CARD
-  Future<void> deleteCard(int cardId) async {
+  Future<void> deleteCard(int packId) async {
     try {
       final db = await databaseService.database;
-      await db.delete('flashcards', where: 'id = ?', whereArgs: [cardId]);
+      await db.delete('packs', where: 'id = ?', whereArgs: [packId]);
     } catch (e) {
-      throw Exception('Failed to delete card:\n$e');
+      throw Exception('Failed to delete card pack:\n$e');
     }
   }
 

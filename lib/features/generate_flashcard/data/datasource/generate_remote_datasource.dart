@@ -14,8 +14,8 @@ class GenerateRemoteDatasource {
       Content.text('''
       Create a flashcard pack in valid JSON format with the following structure:
       {
-        "title": "pack title",
-        "description": "a short description of the pack",
+        "title": "short pack title",
+        "description": "a realy short description of the pack",
         "category": "pack category (e.g., mathematics, coding, chemistry, etc.)",
         "flashcards": [
           {

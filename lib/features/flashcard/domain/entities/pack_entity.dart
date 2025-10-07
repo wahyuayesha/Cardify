@@ -7,7 +7,7 @@ class PackEntity {
   final String category;
   final DateTime createdAt;
   final String origin;
-  final List<FlashcardEntity> flashcards; 
+  final List<FlashcardEntity> flashcards;
 
   PackEntity({
     required this.id,
@@ -18,4 +18,22 @@ class PackEntity {
     required this.origin,
     this.flashcards = const [], // default kosong
   });
+
+  PackEntity copyWith({
+    String? title,
+    String? description,
+    String? category,
+    DateTime? createdAt,
+    String? origin,
+    List<FlashcardEntity>? flashcards,
+  }) {
+    return PackEntity(
+      id: id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      createdAt: createdAt ?? this.createdAt,
+      origin: origin ?? this.origin,
+    );
+  }
 }

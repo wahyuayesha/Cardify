@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_image.dart';
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_text.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GenerateController extends GetxController {
+  final FlashcardController flashcardController = Get.find();
   final CreateFlashcardText createFlashcardText;
   final CreateFlashcardImage createFlashcardImage;
   final ImagePicker imagePicker = ImagePicker();
@@ -51,7 +53,7 @@ class GenerateController extends GetxController {
           backgroundColor: Colors.green.withOpacity(0.8),
           colorText: Colors.white,
         );
-         Get.to(() => MainPage());
+        Get.to(() => MainPage());
         successMessage.value = '';
       }
     });
@@ -68,21 +70,22 @@ class GenerateController extends GetxController {
     if (selectedImage != null && (content == null || content.isEmpty)) {
       // create flashcard dari gambar
       final result = await createFlashcardImage(selectedImage!);
-      result.fold(
-        (failure) => errorMessage.value = failure.message,
-        (_) => successMessage.value = 'Flashcard generated from image!',
-      );
+      result.fold((failure) => errorMessage.value = failure.message, (_) async {
+        successMessage.value = 'Flashcard generated from image!';
+        // fetch ulang flashcards setelah membuat baru
+        await flashcardController.getUserFlashcards();
+        await flashcardController.getRecentUserFlashcards();
+      });
     } else if (selectedImage == null && content != null && content.isNotEmpty) {
       // create flashcard dari konten teks
       final result = await createFlashcardText(content);
-      result.fold(
-        (failure) => errorMessage.value = failure.message,
-        (_) => successMessage.value = 'Flashcard generated from text!',
-      );
-    } else {
-      errorMessage.value = 'Please provide either an image or text (not both).';
+      result.fold((failure) => errorMessage.value = failure.message, (_) async {
+        successMessage.value = 'Flashcard generated from text!';
+        // fetch ulang flashcards setelah membuat baru
+        await flashcardController.getUserFlashcards();
+        await flashcardController.getRecentUserFlashcards();
+      });
     }
-
     isLoading.value = false;
   }
 

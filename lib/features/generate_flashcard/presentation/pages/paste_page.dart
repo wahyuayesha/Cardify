@@ -2,7 +2,6 @@ import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/core/widgets/primary_button.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
-import 'package:cardify/features/flashcard/presentation/pages/home_page.dart';
 import 'package:cardify/features/generate_flashcard/presentation/controllers/generate_controller.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';

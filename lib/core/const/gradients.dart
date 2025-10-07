@@ -37,6 +37,15 @@ class AppGradients {
     end: Alignment.topLeft,
   );
 
+  static const Gradient infoContainer = LinearGradient(
+    colors: [
+      AppColors.secondary, // merah muda
+      AppColors.fourth, // kuning
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
   // Buttons
   static const Gradient primaryButton = LinearGradient(
     colors: [AppColors.primary, AppColors.tertiary],
@@ -44,7 +53,6 @@ class AppGradients {
     end: Alignment.centerLeft,
   );
 
-  
   static const Gradient maroonButton = LinearGradient(
     colors: [AppColors.secondary, AppColors.primary],
     begin: Alignment.topLeft,
@@ -59,6 +67,12 @@ class AppGradients {
 
   static const Gradient flashcardButton = LinearGradient(
     colors: [AppColors.tertiary, AppColors.secondary],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const Gradient category = LinearGradient(
+    colors: [AppColors.categoryHighlight, AppColors.category],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

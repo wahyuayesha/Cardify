@@ -3,26 +3,31 @@ import 'package:cardify/core/const/gradients.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
-  final double width;
+  final double? width;
+  final double? height;
   final VoidCallback onPressed;
   final String text;
+  final double? borderRadius;
   final IconData? prefixIcon;
 
   const PrimaryButton({
     Key? key,
-    required this.width,
+    this.width,
+    this.height,
     required this.onPressed,
     required this.text,
+    this.borderRadius,
     this.prefixIcon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
+      width: width?? 150,
+      height: height?? 50,
       decoration: BoxDecoration(
         gradient: AppGradients.primaryButton,
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(borderRadius ?? 50),
       ),
       child: ElevatedButton(
         onPressed: onPressed,

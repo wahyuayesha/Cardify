@@ -180,11 +180,13 @@ class _OnboardPageState extends State<OnboardPage> {
                                 onPressed: () async {
                                   // Set bahwa user sudah tidak first time buka aplikasi
                                   await onboardController
-                                      .setNotFirstTimeUsecase();
-                                  Get.off(
-                                    MainPage(),
-                                    transition: Transition.cupertino,
-                                  );
+                                      .setNotFirstTimeUsecase()
+                                      .then((_) {
+                                        Get.off(
+                                          MainPage(),
+                                          transition: Transition.cupertino,
+                                        );
+                                      });
                                 },
                                 text: 'Get Started',
                               ),

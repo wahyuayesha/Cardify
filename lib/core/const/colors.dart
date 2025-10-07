@@ -11,7 +11,6 @@ class AppColors {
   static Color subtitle = Color(0xFF000000).withOpacity(0.25);
   static Color subtitleLight = Color(0xFFFFFFFF).withOpacity(0.5);
 
-
   // BRAND
   static const Color primary = Color(0xFFB0183D);
   static const Color secondary = Color(0xFFE23C64);
@@ -21,6 +20,7 @@ class AppColors {
 
   // CATEGORY / SPECIAL
   static const Color category = Color(0xFF6BBA86);
+  static const Color categoryHighlight = Color(0xFFAEFDC9);
 
   // TRANSLUCENT
   static Color fillTrans = AppColors.baseLight.withOpacity(0.2);

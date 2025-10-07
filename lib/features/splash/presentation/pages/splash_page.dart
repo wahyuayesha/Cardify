@@ -1,5 +1,6 @@
 import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
+import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:cardify/features/onboard/presentation/controller/onboard_controller.dart';
 import 'package:cardify/features/onboard/presentation/pages/onboard_page.dart';
@@ -16,6 +17,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final OnboardController onboardController = Get.find();
+  final FlashcardController flashcardController = Get.find();
 
   @override
   void initState() {
@@ -28,8 +30,12 @@ class _SplashPageState extends State<SplashPage> {
 
     // TODO: Implementasi ambil semua data flashcards (mempersiapkan untuk menampilkan jumlah flashcards dan 3 flashcard terbaru di home )
     final isFirstTime = await onboardController.firstTimeStatus();
+    await flashcardController.getUserFlashcards();
+    await flashcardController.getRecentUserFlashcards();
+
+
     print('❔Is First Time = $isFirstTime');
-    
+
     final elapsed = DateTime.now().difference(start);
     final remaining = Duration(seconds: 5) - elapsed;
     if (remaining > Duration.zero) {

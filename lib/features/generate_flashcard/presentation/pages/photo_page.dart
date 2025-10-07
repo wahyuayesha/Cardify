@@ -5,7 +5,6 @@ import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/core/widgets/card_button.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
 import 'package:cardify/features/generate_flashcard/presentation/controllers/generate_controller.dart';
-import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

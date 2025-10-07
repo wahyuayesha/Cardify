@@ -28,7 +28,7 @@ class FlashcardRepoImpl implements FlashcardRepository {
   @override
   Future<Either<Failure, List<PackEntity>>> getFlashcards(
     String? keyword,
-    String? sortBy,
+    String sortBy,
   ) async {
     try {
       final packs = await localDataSource.getFlashcards(keyword, sortBy);
@@ -41,9 +41,9 @@ class FlashcardRepoImpl implements FlashcardRepository {
 
   // delete flashcard
   @override
-  Future<Either<Failure, Unit>> deleteFlashcard(int cardId) async {
+  Future<Either<Failure, Unit>> deleteFlashcard(int packId) async {
     try {
-      await localDataSource.deleteCard(cardId);
+      await localDataSource.deleteCard(packId);
       return const Right(unit);
     } catch (e) {
       return Left(CacheFailure('$e'));

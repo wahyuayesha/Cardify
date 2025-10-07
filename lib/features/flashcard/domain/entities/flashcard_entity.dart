@@ -10,4 +10,13 @@ class FlashcardEntity {
     required this.back,
     this.flag = 0,
   });
+
+  FlashcardEntity copyWith({String? front, String? back, int? flag}) {
+    return FlashcardEntity(
+      id: id,
+      front: front ?? this.front,
+      back: back ?? this.back,
+      flag: flag ?? this.flag,
+    );
+  }
 }
