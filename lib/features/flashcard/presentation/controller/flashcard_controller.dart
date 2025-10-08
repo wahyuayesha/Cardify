@@ -23,7 +23,7 @@ class FlashcardController extends GetxController {
 
   var userPacks = RxList<PackEntity>();
 
- var recentPacks = RxList<PackEntity>();
+  var recentPacks = RxList<PackEntity>();
 
 
   bool isLoading = false;

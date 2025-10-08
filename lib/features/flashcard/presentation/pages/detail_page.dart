@@ -1,16 +1,21 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/core/functions/time_converter.dart';
 import 'package:cardify/core/widgets/category_pill.dart';
+import 'package:cardify/core/widgets/dialog.dart';
 import 'package:cardify/core/widgets/primary_button.dart';
 import 'package:cardify/core/widgets/svg_icon.dart';
 import 'package:cardify/features/flashcard/domain/entities/pack_entity.dart';
 import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
+import 'package:cardify/features/flashcard/presentation/pages/study_page.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class DetailPage extends StatelessWidget {
   DetailPage({super.key, required this.cardPack});
   final FlashcardController flashcardController = Get.find();
@@ -42,16 +47,16 @@ class DetailPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // background gradient
+          // BACKGROUND GRADIENT
           Container(
             decoration: BoxDecoration(gradient: AppGradients.background),
           ),
 
-          // main content
+          // KONTEN UTAMA
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // header image
+              // Gambar header
               Padding(
                 padding: const EdgeInsets.only(top: 100, bottom: 30),
                 child: Center(
@@ -62,7 +67,7 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
 
-              // white section
+              // BAGIAN PUTIH
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -80,7 +85,7 @@ class DetailPage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: SingleChildScrollView(
-                            // BAGIAN INFORMASI PACK
+                            // BAGIAN INFORMASI PACK (JUDUL, DESKRIPSI, KATEGORI dll)
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -253,7 +258,9 @@ class DetailPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Button bawah
+
+                        // BOTTOM BUTTONS SECTION
+                        // Button Delete
                         SizedBox(height: 20),
                         Row(
                           children: [
@@ -275,78 +282,34 @@ class DetailPage extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
+                                // Tampilkan dialog
                                 Get.dialog(
-                                  AlertDialog(
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).scaffoldBackgroundColor,
-                                    icon: Icon(
-                                      Icons.warning,
-                                      color: AppColors.primary,
-                                    ),
-                                    title: Text(
-                                      'Delete this card pack?',
-                                      style: TextStyle(
-                                        color: AppColors.primary,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          "You can't restore this card pack once already deleted",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: themeController.isDark.value
-                                                ? AppColors.subtitleLight
-                                                : AppColors.subtitle,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        SizedBox(height: 20),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: PrimaryButton(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                text: 'Cancel',
-                                                borderRadius: 18,
-                                              ),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Expanded(
-                                              child: PrimaryButton(
-                                                onPressed: () async {
-                                                  await flashcardController
-                                                      .deleteFlashcardsPack(
-                                                        cardPack.id,
-                                                      )
-                                                      .then((_) {
-                                                        Get.offAll(MainPage());
-                                                      });
-                                                },
-                                                text: flashcardController.isLoading? 'Deleting..' : 'Delete',
-                                                borderRadius: 18,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  MyDialog(
+                                    title: 'Delete this card pack?',
+                                    message:
+                                        "You can't restore this card pack once already deleted",
+                                    confirmText: 'Delete',
+                                    onConfirm: () async {
+                                      await flashcardController
+                                          .deleteFlashcardsPack(cardPack.id)
+                                          .then((_) {
+                                            Get.offAll(MainPage());
+                                          });
+                                    },
                                   ),
                                 );
                               },
                             ),
+
+                            // Button study
                             SizedBox(width: 10),
                             Expanded(
                               child: PrimaryButton(
                                 height: 55,
                                 borderRadius: 18,
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.to(StudyPage(cardPack: cardPack));
+                                },
                                 text: 'Start Study',
                               ),
                             ),

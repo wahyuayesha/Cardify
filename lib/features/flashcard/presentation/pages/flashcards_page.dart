@@ -6,6 +6,6 @@ class FlashcardsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Daftar flashcards'),),);
+    return Scaffold(body: Center(child: Text('Daftar flashcards')),);
   }
 }

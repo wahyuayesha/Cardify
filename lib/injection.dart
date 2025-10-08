@@ -10,6 +10,7 @@ import 'package:cardify/features/flashcard/domain/usecases/get_flag.dart';
 import 'package:cardify/features/flashcard/domain/usecases/get_flashcards.dart';
 import 'package:cardify/features/flashcard/domain/usecases/update_flag.dart';
 import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
+import 'package:cardify/features/flashcard/presentation/controller/study_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/time_controller.dart';
 import 'package:cardify/features/generate_flashcard/data/datasource/generate_remote_datasource.dart';
@@ -72,6 +73,9 @@ Future<void> initDependencies() async {
   // NAVBAR
   // controller
   Get.lazyPut(() => NavbarController(), fenix: true);
+
+  // STUDY
+  Get.lazyPut(() => StudyController(), fenix: true);
 
   // FLASHCARD
   // datasource
