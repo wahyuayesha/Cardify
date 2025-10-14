@@ -6,9 +6,9 @@ import 'package:cardify/core/widgets/dialog.dart';
 import 'package:cardify/core/widgets/svg_icon.dart';
 import 'package:cardify/features/flashcard/domain/entities/flashcard_entity.dart';
 import 'package:cardify/features/flashcard/domain/entities/pack_entity.dart';
+import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/study_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
-import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
 import 'package:flutter_flip_card/flipcard/flip_card.dart';
@@ -26,10 +26,26 @@ class StudyPage extends StatefulWidget {
 class _StudyPageState extends State<StudyPage> {
   final StudyController studyController = Get.find();
   final ThemeController themeController = Get.find();
+  final FlashcardController flashcardController = Get.find();
+
+  late List<FlashcardEntity> cards;
+
+  @override
+  void initState() {
+    super.initState();
+    // salin data agar tidak ubah widget.cardPack langsung
+    cards = List.from(widget.cardPack.flashcards);
+  }
+
+  void shuffleCards() {
+    setState(() {
+      cards.shuffle(); // built-in function untuk acak list
+      studyController.kartuAktif.value = 0; // reset ke kartu pertama
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<FlashcardEntity> cards = widget.cardPack.flashcards;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -75,18 +91,22 @@ class _StudyPageState extends State<StudyPage> {
                             children: [
                               Icon(
                                 Icons.flag_rounded,
-                                size: 20,
                                 color: AppColors.primary,
+                                size: 20,
                               ),
-                              Text(
-                                '0 Flags',
-                                style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontSize: 12,
+                              const SizedBox(width: 5),
+                              Obx(
+                                () => Text(
+                                  '${flashcardController.getFlaggedCountForPackById(widget.cardPack.id)} flagged',
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
+
                           Obx(
                             () => Text(
                               '${studyController.kartuAktif.value + 1}/${cards.length} Cards',
@@ -146,6 +166,8 @@ class _StudyPageState extends State<StudyPage> {
                                 rotateSide: RotateSide.right,
                                 axis: FlipAxis.vertical,
                                 onTapFlipping: true,
+
+                                // Card bagian depan (pertanyaan)
                                 frontWidget: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(32),
@@ -175,23 +197,36 @@ class _StudyPageState extends State<StudyPage> {
                                           ),
                                           Align(
                                             alignment: Alignment.centerRight,
-                                            child: IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.flag_rounded,
-                                                size: 35,
-                                                color: card.flag == 0
-                                                    ? AppColors.baseDark
-                                                          .withOpacity(0.1)
-                                                    : AppColors.baseLight,
-                                              ),
-                                            ),
+                                            child: Obx(() {
+                                              // ambil kartu dari reactive variabel agar widget bisa terupdate real time
+                                              final flashcard =
+                                                  flashcardController
+                                                      .findCardById(card.id!);
+                                              final isFlag =
+                                                  flashcard?.flag == 1;
+
+                                              return IconButton(
+                                                onPressed: () =>
+                                                    flashcardController
+                                                        .toggleFlag(card.id!),
+                                                icon: Icon(
+                                                  Icons.flag_rounded,
+                                                  size: 35,
+                                                  color: isFlag
+                                                      ? AppColors.baseLight
+                                                      : AppColors.baseDark
+                                                            .withOpacity(0.1),
+                                                ),
+                                              );
+                                            }),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
+
+                                // Card bagian belalang (jawaban)
                                 backWidget: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(32),
@@ -221,17 +256,28 @@ class _StudyPageState extends State<StudyPage> {
                                           ),
                                           Align(
                                             alignment: Alignment.centerRight,
-                                            child: IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.flag_rounded,
-                                                size: 35,
-                                                color: card.flag == 0
-                                                    ? AppColors.baseDark
-                                                          .withOpacity(0.1)
-                                                    : AppColors.baseLight,
-                                              ),
-                                            ),
+                                            child: Obx(() {
+                                              // ambil kartu dari reactive variabel agar widget bisa terupdate real time
+                                              final flashcard =
+                                                  flashcardController
+                                                      .findCardById(card.id!);
+                                              final isFlag =
+                                                  flashcard?.flag == 1;
+
+                                              return IconButton(
+                                                onPressed: () =>
+                                                    flashcardController
+                                                        .toggleFlag(card.id!),
+                                                icon: Icon(
+                                                  Icons.flag_rounded,
+                                                  size: 35,
+                                                  color: isFlag
+                                                      ? AppColors.baseLight
+                                                      : AppColors.baseDark
+                                                            .withOpacity(0.1),
+                                                ),
+                                              );
+                                            }),
                                           ),
                                         ],
                                       ),
@@ -334,8 +380,10 @@ class _StudyPageState extends State<StudyPage> {
                       Row(
                         children: [
                           // Tombol shuffle
+                          // Tombol shuffle
                           Expanded(
                             child: GestureDetector(
+                              onTap: shuffleCards, // 🔹 panggil fungsi acak
                               child: Container(
                                 height: 50,
                                 decoration: BoxDecoration(
@@ -358,7 +406,7 @@ class _StudyPageState extends State<StudyPage> {
                                           : AppColors.baseLight,
                                       size: 20,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     Text(
                                       'Shuffle',
                                       style: TextStyle(
@@ -374,6 +422,7 @@ class _StudyPageState extends State<StudyPage> {
                               ),
                             ),
                           ),
+
                           // Tombol Finish
                           SizedBox(width: 10),
                           Expanded(

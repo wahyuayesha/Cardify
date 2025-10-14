@@ -171,12 +171,16 @@ class DetailPage extends StatelessWidget {
                                                   color: AppColors.baseLight,
                                                 ),
                                                 SizedBox(width: 5),
-                                                Text(
-                                                  '${cardPack.flashcards.where((c) => c.flag == 1).length} Flags',
-                                                  style: TextStyle(
-                                                    color: AppColors.baseLight,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
+                                                Obx(
+                                                  () => Text(
+                                                    '${flashcardController.getFlaggedCountForPackById(cardPack.id)} Flags',
+                                                    style: TextStyle(
+                                                      color:
+                                                          AppColors.baseLight,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 12,
+                                                    ),
                                                   ),
                                                 ),
                                               ],

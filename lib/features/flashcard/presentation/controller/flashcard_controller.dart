@@ -1,11 +1,9 @@
-
-import 'package:cardify/core/error/failures.dart';
+import 'package:cardify/features/flashcard/domain/entities/flashcard_entity.dart';
 import 'package:cardify/features/flashcard/domain/entities/pack_entity.dart';
 import 'package:cardify/features/flashcard/domain/usecases/delete_flashcard.dart';
 import 'package:cardify/features/flashcard/domain/usecases/get_flag.dart';
 import 'package:cardify/features/flashcard/domain/usecases/get_flashcards.dart';
 import 'package:cardify/features/flashcard/domain/usecases/update_flag.dart';
-import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 
 class FlashcardController extends GetxController {
@@ -22,100 +20,130 @@ class FlashcardController extends GetxController {
   });
 
   var userPacks = RxList<PackEntity>();
-
   var recentPacks = RxList<PackEntity>();
 
+  var isLoading = false.obs;
+  var errormessage = ''.obs;
 
-  bool isLoading = false;
-  String? errormessage = '';
+  var sortBy = 'created'.obs;
+  var keywords = ''.obs;
 
-  String sortBy = 'created';
-  String keywords = '';
+  // Method untuk menghitung flagged cards dalam satu pack
+  int getFlaggedCountForPackById(int packId) {
+    // Cari pack terbaru dari userPacks atau recentPacks
+    final pack =
+        userPacks.firstWhereOrNull((p) => p.id == packId) ??
+        recentPacks.firstWhereOrNull((p) => p.id == packId);
 
-  Future<void> getUserFlashcards() async {
-    isLoading = true;
-    errormessage = '';
-    final response = await getFlashcards(keywords, sortBy);
-    response.fold((failure) => errormessage = failure.message, (packs) {
-      print('📚 CARD PACKS : ${packs.length}');
-      userPacks.value = packs;
-    });
+    if (pack == null) return 0;
 
-    isLoading = false;
+    return pack.flashcards.where((card) => card.flag == 1).length;
   }
 
+  FlashcardEntity? findCardById(int id) {
+    for (final pack in [...userPacks, ...recentPacks]) {
+      for (final card in pack.flashcards) {
+        if (card.id == id) return card;
+      }
+    }
+    print(
+      '⚠️ [DEBUG] Card id=$id tidak ditemukan di userPacks maupun recentPacks',
+    );
+    return null;
+  }
+
+  // AMBIL KARTU USER (TERPENGARUH FILTER)
+  Future<void> getUserFlashcards() async {
+    isLoading.value = true;
+    errormessage.value = '';
+    final response = await getFlashcards(keywords.value, sortBy.value);
+    response.fold(
+      (failure) {
+        errormessage.value = failure.message;
+      },
+      (packs) {
+        print('📚 CARD PACKS : ${packs.length}');
+        userPacks.value = packs;
+      },
+    );
+    isLoading.value = false;
+  }
+
+  // AMBIL PACK KARTU USER (URUT BERDASAR WAKTU DIBUAT)
   Future<void> getRecentUserFlashcards() async {
-    isLoading = true;
-    errormessage = '';
+    isLoading.value = true;
+    errormessage.value = '';
     final response = await getFlashcards('', 'created');
     response.fold(
-      (failure) => errormessage = failure.message,
+      (failure) => errormessage.value = failure.message,
       (packs) => recentPacks.value = packs,
     );
-    isLoading = false;
+    isLoading.value = false;
   }
 
+  // HAPUS PACK KARTU TERTENTU
   Future<void> deleteFlashcardsPack(int packId) async {
-    isLoading = true;
-    errormessage = '';
+    isLoading.value = true;
+    errormessage.value = '';
     final response = await deleteFlashcard(packId);
-    response.fold((failure) => errormessage = failure.message, (unit) => unit);
+    response.fold(
+      (failure) => errormessage.value = failure.message,
+      (unit) => unit,
+    );
     await getUserFlashcards();
     await getRecentUserFlashcards();
-    isLoading = false;
+    isLoading.value = false;
   }
 
-  Future<Either<Failure, int>> getCardFlag(int cardId) async {
-    isLoading = true;
-    errormessage = '';
-
-    final response = await getFlag(cardId);
-
-    // supaya isLoading false tetap jalan, jangan return langsung fold
-    final Either<Failure, int> result = response.fold((failure) {
-      errormessage = failure.message;
-      return Left(failure);
-    }, (flag) => Right(flag));
-
-    isLoading = false;
-    return result;
-  }
-
-  Future<void> updateCardFlag(int cardId, int newValue) async {
-    isLoading = true;
-    errormessage = '';
-    final response = await updateFlag(cardId, newValue);
-
-    response.fold((failure) => errormessage = failure.message, (_) {
-      // Update data di variabel
-      userPacks.value = userPacks.map((pack) {
-        final updatedFlashcards = pack.flashcards.map((card) {
-          return card.id == cardId ? card.copyWith(flag: newValue) : card;
-        }).toList();
-        return pack.copyWith(flashcards: updatedFlashcards);
-      }).toList();
-
-      recentPacks.value = recentPacks.map((pack) {
-        final updatedFlashcards = pack.flashcards.map((card) {
-          return card.id == cardId ? card.copyWith(flag: newValue) : card;
-        }).toList();
-        return pack.copyWith(flashcards: updatedFlashcards);
-      }).toList();
-    });
-    isLoading = false;
-  }
-
+  // TOGGLE FLAG KARTU TERTENTU
   Future<void> toggleFlag(int cardId) async {
-    isLoading = true;
-    errormessage = '';
+    // Cari current flag
+    int? currentFlag;
 
-    final response = await getCardFlag(cardId);
+    try {
+      currentFlag = userPacks
+          .expand((p) => p.flashcards)
+          .firstWhere((c) => c.id == cardId)
+          .flag;
+    } catch (e) {
+      try {
+        currentFlag = recentPacks
+            .expand((p) => p.flashcards)
+            .firstWhere((c) => c.id == cardId)
+            .flag;
+      } catch (e) {
+        print('Card dengan id=$cardId tidak ditemukan');
+        return;
+      }
+    }
 
-    response.fold((failure) => errormessage = failure.message, (flag) async {
-      final newflag = flag == 0 ? 1 : 0;
-      print('🚩 Flag di rubah dari $flag menjadi $newflag');
-      await updateCardFlag(cardId, newflag);
+    final newFlag = currentFlag == 1 ? 0 : 1;
+
+    // Update ke database
+    final result = await updateFlag(cardId, newFlag);
+
+    result.fold((failure) => errormessage.value = failure.message, (_) {
+      // Update userPacks
+      final updatedUserPacks = userPacks.map((pack) {
+        final updatedCards = pack.flashcards.map((card) {
+          return card.id == cardId ? card.copyWith(flag: newFlag) : card;
+        }).toList();
+        return pack.copyWith(flashcards: updatedCards);
+      }).toList();
+
+      // Update recentPacks
+      final updatedRecentPacks = recentPacks.map((pack) {
+        final updatedCards = pack.flashcards.map((card) {
+          return card.id == cardId ? card.copyWith(flag: newFlag) : card;
+        }).toList();
+        return pack.copyWith(flashcards: updatedCards);
+      }).toList();
+
+      // Apply perubahan
+      userPacks.assignAll(updatedUserPacks);
+      recentPacks.assignAll(updatedRecentPacks);
+
+      update();
     });
-    isLoading = false;
   }
 }

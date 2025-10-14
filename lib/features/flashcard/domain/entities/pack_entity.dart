@@ -16,7 +16,7 @@ class PackEntity {
     required this.category,
     required this.createdAt,
     required this.origin,
-    this.flashcards = const [], // default kosong
+    this.flashcards = const [],
   });
 
   PackEntity copyWith({
@@ -34,6 +34,7 @@ class PackEntity {
       category: category ?? this.category,
       createdAt: createdAt ?? this.createdAt,
       origin: origin ?? this.origin,
+      flashcards: flashcards ?? this.flashcards, // ✅ TAMBAHKAN INI!
     );
   }
 }

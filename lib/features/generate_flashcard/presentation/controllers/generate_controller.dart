@@ -4,6 +4,7 @@ import 'package:cardify/features/flashcard/presentation/controller/flashcard_con
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_image.dart';
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_text.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -91,44 +92,55 @@ class GenerateController extends GetxController {
 
   // MEMILIH GAMBAR
   Future<void> pickImage(ImageSource source) async {
-    // reset variabel
     errorMessage.value = '';
     selectedImage = null;
 
-    PermissionStatus status; // status perizinan
+    PermissionStatus status;
 
-    // handle request perizinan sesuai kondisi (kamera/galeri)
     if (source == ImageSource.camera) {
+      // izin kamera
       status = await Permission.camera.request();
       if (status.isDenied) {
         errorMessage.value = 'Camera permission denied';
         return;
       }
       if (status.isPermanentlyDenied) {
-        openAppSettings();
+        await openAppSettings();
         return;
       }
     }
 
     if (source == ImageSource.gallery) {
-      status = await Permission.storage.request();
-      if (status.isDenied) {
-        errorMessage.value = 'Storage permission denied';
-        return;
-      }
-      if (status.isPermanentlyDenied) {
-        openAppSettings();
-        return;
+      // cek versi android
+      if (Platform.isAndroid) {
+        final androidInfo = await DeviceInfoPlugin().androidInfo;
+        final sdkInt = androidInfo.version.sdkInt;
+
+        if (sdkInt >= 33) {
+          // android 13+ (API 33 ke atas)
+          status = await Permission.photos.request();
+        } else {
+          // android 10–12 (API 29–32)
+          status = await Permission.storage.request();
+        }
+
+        if (status.isDenied) {
+          errorMessage.value = 'Gallery permission denied';
+          return;
+        }
+        if (status.isPermanentlyDenied) {
+          await openAppSettings();
+          return;
+        }
       }
     }
 
     // ambil gambar
     final pickedImage = await imagePicker.pickImage(source: source);
-    // validasi hasil
     if (pickedImage == null) {
-      errorMessage.value = "You have not pick any image";
+      errorMessage.value = "You have not picked any image";
     } else {
-      selectedImage = File(pickedImage.path); // simpan ke variabel
+      selectedImage = File(pickedImage.path);
     }
   }
 }

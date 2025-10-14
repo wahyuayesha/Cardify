@@ -93,7 +93,7 @@ class HomePage extends StatelessWidget {
                                 ),
                                 Obx(
                                   () => Text(
-                                    flashcardController.userPacks.length
+                                    flashcardController.recentPacks.length
                                         .toString(),
                                     style: TextStyle(
                                       color: AppColors.baseLight,
@@ -101,7 +101,7 @@ class HomePage extends StatelessWidget {
                                       fontSize: 18,
                                     ),
                                   ),
-                                ), // TODO: Menggunakan data asli
+                                ),
                               ],
                             ),
 
