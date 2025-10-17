@@ -37,7 +37,7 @@ class DetailPage extends StatelessWidget {
           onPressed: () => Get.back(),
         ),
         title: Text(
-          'Card Pack Details',
+          'detail.title'.tr,
           style: TextStyle(
             color: AppColors.primary,
             fontWeight: FontWeight.w500,
@@ -173,7 +173,7 @@ class DetailPage extends StatelessWidget {
                                                 SizedBox(width: 5),
                                                 Obx(
                                                   () => Text(
-                                                    '${flashcardController.getFlaggedCountForPackById(cardPack.id)} Flags',
+                                                    '${flashcardController.getFlaggedCountForPackById(cardPack.id)} ${'text.flags'.tr}',
                                                     style: TextStyle(
                                                       color:
                                                           AppColors.baseLight,
@@ -212,7 +212,7 @@ class DetailPage extends StatelessWidget {
                                                 ),
                                                 SizedBox(width: 5),
                                                 Text(
-                                                  '${cardPack.flashcards.length} Cards',
+                                                  '${cardPack.flashcards.length} ${'text.cards'.tr}',
                                                   style: TextStyle(
                                                     color: AppColors.baseLight,
                                                     fontWeight: FontWeight.w500,
@@ -231,7 +231,7 @@ class DetailPage extends StatelessWidget {
                                 // TEKS MENTAH
                                 SizedBox(height: 10),
                                 Text(
-                                  'Original Notes',
+                                  'detail.sub'.tr,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -289,10 +289,10 @@ class DetailPage extends StatelessWidget {
                                 // Tampilkan dialog
                                 Get.dialog(
                                   MyDialog(
-                                    title: 'Delete this card pack?',
+                                    title: 'dialog.title'.tr,
                                     message:
-                                        "You can't restore this card pack once already deleted",
-                                    confirmText: 'Delete',
+                                        "dialog.sub".tr,
+                                    confirmText: 'dialog.confirm'.tr,
                                     onConfirm: () async {
                                       await flashcardController
                                           .deleteFlashcardsPack(cardPack.id)
@@ -314,7 +314,7 @@ class DetailPage extends StatelessWidget {
                                 onPressed: () {
                                   Get.to(StudyPage(cardPack: cardPack));
                                 },
-                                text: 'Start Study',
+                                text: 'button.study'.tr,
                               ),
                             ),
                           ],

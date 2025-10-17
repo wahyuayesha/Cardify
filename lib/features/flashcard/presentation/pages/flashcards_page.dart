@@ -29,7 +29,7 @@ class FlashcardsPage extends StatelessWidget {
         title: Row(
           children: [
             Text(
-              'Flashcards',
+              'flashcard.title'.tr,
               style: TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w500,
@@ -113,7 +113,7 @@ class FlashcardsPage extends StatelessWidget {
                 Get.dialog(
                   AlertDialog(
                     title: Text(
-                      'Search Flashcard',
+                      'flashcard.search'.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
@@ -153,13 +153,13 @@ class FlashcardsPage extends StatelessWidget {
                 Image.asset('assets/images/decoration/empty.png', scale: 2.5),
                 SizedBox(height: 20),
                 Text(
-                  'No Flashcard Found',
+                  'flashcard.emptySub'.tr,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    'Your flashcard pack is empty, start make your first flashcard below.',
+                    'flashcard.emptyDesc'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: themeController.isDark.value
@@ -174,7 +174,7 @@ class FlashcardsPage extends StatelessWidget {
                   onPressed: () {
                     Get.to(PhotoPage(), transition: Transition.cupertino);
                   },
-                  text: 'Create Flashcard',
+                  text: 'button.create'.tr,
                   width: 160,
                   height: 40,
                 ),

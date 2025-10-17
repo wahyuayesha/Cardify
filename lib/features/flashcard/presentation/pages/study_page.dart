@@ -97,7 +97,7 @@ class _StudyPageState extends State<StudyPage> {
                               const SizedBox(width: 5),
                               Obx(
                                 () => Text(
-                                  '${flashcardController.getFlaggedCountForPackById(widget.cardPack.id)} flagged',
+                                  '${flashcardController.getFlaggedCountForPackById(widget.cardPack.id)} ${'text.flagged'.tr}',
                                   style: TextStyle(
                                     color: AppColors.primary,
                                     fontSize: 12,
@@ -109,7 +109,7 @@ class _StudyPageState extends State<StudyPage> {
 
                           Obx(
                             () => Text(
-                              '${studyController.kartuAktif.value + 1}/${cards.length} Cards',
+                              '${studyController.kartuAktif.value + 1}/${cards.length} ${'text.cards'.tr}',
                               style: TextStyle(
                                 color: AppColors.primary,
                                 fontSize: 12,
@@ -325,7 +325,7 @@ class _StudyPageState extends State<StudyPage> {
                                   ),
                                   SizedBox(width: 5),
                                   Text(
-                                    'How to use:',
+                                    'notice1.title'.tr,
                                     style: TextStyle(
                                       color: AppColors.baseLight,
                                       fontWeight: FontWeight.w500,
@@ -338,7 +338,7 @@ class _StudyPageState extends State<StudyPage> {
                                 children: [
                                   SizedBox(width: 30),
                                   Text(
-                                    'Tap a card to reveal the answer',
+                                    'notice1.content1'.tr,
                                     style: TextStyle(
                                       color: AppColors.baseLight,
                                       fontSize: 12,
@@ -350,7 +350,7 @@ class _StudyPageState extends State<StudyPage> {
                                 children: [
                                   SizedBox(width: 30),
                                   Text(
-                                    'Swipe left to show another card',
+                                    'notice2.content2'.tr,
                                     style: TextStyle(
                                       color: AppColors.baseLight,
                                       fontSize: 12,
@@ -362,7 +362,7 @@ class _StudyPageState extends State<StudyPage> {
                                 children: [
                                   SizedBox(width: 30),
                                   Text(
-                                    'Flag a card to review later',
+                                    'notice3.content3'.tr,
                                     style: TextStyle(
                                       color: AppColors.baseLight,
                                       fontSize: 12,
@@ -408,7 +408,7 @@ class _StudyPageState extends State<StudyPage> {
                                     ),
                                     const SizedBox(width: 5),
                                     Text(
-                                      'Shuffle',
+                                      'button.shuffle'.tr,
                                       style: TextStyle(
                                         color: themeController.isDark.value
                                             ? AppColors.primary
@@ -437,7 +437,7 @@ class _StudyPageState extends State<StudyPage> {
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'Finish',
+                                  'button.finish'.tr,
                                   style: TextStyle(
                                     color: !themeController.isDark.value
                                         ? AppColors.primary
@@ -451,9 +451,9 @@ class _StudyPageState extends State<StudyPage> {
                                 Get.dialog(
                                   MyDialog(
                                     title:
-                                        'Do you really want to finish this study session?',
+                                        'dialog1.title'.tr,
                                     message: '',
-                                    confirmText: 'Finish',
+                                    confirmText: 'button.finish'.tr,
                                     onConfirm: () {
                                       Get.back();
                                     },

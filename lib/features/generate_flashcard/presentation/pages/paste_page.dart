@@ -33,7 +33,7 @@ class PastePage extends StatelessWidget {
           onPressed: () => Get.back(),
         ),
         title: Text(
-          'Paste Text',
+          'paste.title'.tr,
           style: TextStyle(
             color: themeController.isDark.value
                 ? AppColors.baseLight
@@ -74,7 +74,7 @@ class PastePage extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Paste Your Notes',
+                    'paste.head'.tr,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class PastePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Paste your study material, notes, or text you want to convert into flashcards',
+                    'paste.desc'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 15, color: AppColors.baseLight),
                   ),
@@ -149,7 +149,7 @@ class PastePage extends StatelessWidget {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      'Minimum 100 characters',
+                                      'notice.validation'.tr,
                                       style: TextStyle(
                                         // color: themeController.isDark.value
                                         //     ? AppColors.subtitle
@@ -182,7 +182,7 @@ class PastePage extends StatelessWidget {
                                           Get.to(MainPage());
                                         }
                                       },
-                                      text: 'Create Flashcards',
+                                      text: 'button.generate'.tr,
                                       prefixIcon: Icons.auto_fix_high,
                                     );
                                   }

@@ -1,9 +1,9 @@
+import 'package:cardify/core/localization/translations.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
 import 'package:cardify/features/splash/presentation/pages/splash_page.dart';
 import 'package:cardify/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
       () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: themeController.theme,
+        translationsKeys: AppTranslations.keys,
+        locale: const Locale('en', 'US'), 
+        fallbackLocale: const Locale('en', 'US'),
         home: SplashPage(),
       ),
     );

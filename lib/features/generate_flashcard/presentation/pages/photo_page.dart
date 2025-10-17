@@ -33,7 +33,7 @@ class PhotoPage extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          'Photo Notes',
+          'photo.title'.tr,
           style: TextStyle(
             color: AppColors.primary,
             fontWeight: FontWeight.w500,
@@ -62,12 +62,12 @@ class PhotoPage extends StatelessWidget {
 
             // Deskripsi
             Text(
-              'Select Image Source',
+              'photo.head'.tr,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Obx(
               () => Text(
-                'Take a photo or select an image from your gallery to create a new flashcard.',
+                'photo.desc'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
@@ -90,7 +90,7 @@ class PhotoPage extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Generating your cards',
+                      'photo.loading'.tr,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -105,8 +105,8 @@ class PhotoPage extends StatelessWidget {
                     CardButton(
                       height: 95,
                       gradient: AppGradients.maroonButton,
-                      title: 'Take Picture',
-                      desc: 'Use camera to take your note photo',
+                      title: 'button.picture'.tr,
+                      desc: 'desc.picture'.tr,
                       icon: Icon(
                         Icons.camera_alt_rounded,
                         color: AppColors.baseLight,
@@ -122,8 +122,8 @@ class PhotoPage extends StatelessWidget {
                     CardButton(
                       height: 95,
                       gradient: AppGradients.yellowButton,
-                      title: 'Choose From Gallery',
-                      desc: 'Upload your note image from storage ',
+                      title: 'button.gallery'.tr,
+                      desc: 'desc.gallery'.tr,
                       icon: Icon(Icons.photo, color: AppColors.baseLight),
                       onPressed: () async {
                         await generateController.pickImage(ImageSource.gallery);
@@ -154,7 +154,7 @@ class PhotoPage extends StatelessWidget {
                         Icon(Icons.lightbulb, color: AppColors.category),
                         SizedBox(width: 5),
                         Text(
-                          'Tips for best results',
+                          'notice.title'.tr,
                           style: TextStyle(
                             color: AppColors.category,
                             fontWeight: FontWeight.w500,
@@ -167,7 +167,7 @@ class PhotoPage extends StatelessWidget {
                       children: [
                         SizedBox(width: 30),
                         Text(
-                          'Make sure the image is not blurry',
+                          'notice.content1'.tr,
                           style: TextStyle(
                             color: AppColors.category,
                             fontSize: 12,
@@ -179,7 +179,7 @@ class PhotoPage extends StatelessWidget {
                       children: [
                         SizedBox(width: 30),
                         Text(
-                          'Use proper lighting',
+                          'notice.content2'.tr,
                           style: TextStyle(
                             color: AppColors.category,
                             fontSize: 12,
@@ -191,7 +191,7 @@ class PhotoPage extends StatelessWidget {
                       children: [
                         SizedBox(width: 30),
                         Text(
-                          'Avoid shadows on text or objects',
+                          'notice.content3'.tr,
                           style: TextStyle(
                             color: AppColors.category,
                             fontSize: 12,

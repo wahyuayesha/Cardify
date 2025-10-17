@@ -7,6 +7,7 @@ import 'package:cardify/core/widgets/card_button.dart';
 import 'package:cardify/core/widgets/category_pill.dart';
 import 'package:cardify/core/widgets/svg_icon.dart';
 import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
+import 'package:cardify/features/flashcard/presentation/controller/language_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/time_controller.dart';
 import 'package:cardify/features/flashcard/presentation/pages/detail_page.dart';
@@ -72,7 +73,7 @@ class HomePage extends StatelessWidget {
 
                     // Container Total Card Packs
                     Container(
-                      height: 80,
+                      height: 82,
                       decoration: BoxDecoration(
                         color: AppColors.fillTrans,
                         border: Border.all(color: AppColors.borderTrans),
@@ -88,7 +89,7 @@ class HomePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Total Card Packs Created',
+                                  'home.info'.tr,
                                   style: TextStyle(color: AppColors.baseLight),
                                 ),
                                 Obx(
@@ -143,8 +144,8 @@ class HomePage extends StatelessWidget {
                             Icons.camera_alt_rounded,
                             color: AppColors.baseLight,
                           ),
-                          title: 'Photo Notes',
-                          desc: 'Snap or upload & convert to cards',
+                          title: 'button.image'.tr,
+                          desc: 'desc.image'.tr,
                           gradient: AppGradients.maroonButton,
                           onPressed: () {
                             Get.to(PhotoPage());
@@ -160,8 +161,8 @@ class HomePage extends StatelessWidget {
                             fit: BoxFit.none,
                             color: AppColors.baseLight,
                           ),
-                          title: 'Paste Text',
-                          desc: 'Convert text to\ncards',
+                          title: 'button.paste'.tr,
+                          desc: 'desc.paste'.tr,
                           gradient: AppGradients.yellowButton,
                           onPressed: () {
                             Get.to(PastePage());
@@ -176,8 +177,8 @@ class HomePage extends StatelessWidget {
                   CardButton(
                     height: 90,
                     gradient: AppGradients.flashcardButton,
-                    title: 'My Card Packs',
-                    desc: 'View All Collections',
+                    title: 'button.card'.tr,
+                    desc: 'desc.card'.tr,
                     icon: AppSvgIcon(
                       'assets/icons/flashcards.svg',
                       fit: BoxFit.none,
@@ -193,7 +194,7 @@ class HomePage extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Recent Card Packs',
+                      'home.sub'.tr,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -219,7 +220,7 @@ class HomePage extends StatelessWidget {
                           SizedBox(height: 10),
 
                           Text(
-                            'No Recent Flashcards',
+                            'home.empty'.tr,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 15,
@@ -383,6 +384,7 @@ class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
 
   final ThemeController themeController = Get.find();
+  final LanguageController languageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -404,8 +406,8 @@ class AppDrawer extends StatelessWidget {
                     color: AppColors.baseLight,
                   ),
                   const SizedBox(width: 5),
-                  const Text(
-                    'Settings',
+                  Text(
+                    'settings.title'.tr,
                     style: TextStyle(
                       fontSize: 20,
                       color: AppColors.baseLight,
@@ -430,7 +432,7 @@ class AppDrawer extends StatelessWidget {
                               ),
                         const SizedBox(width: 5),
                         Text(
-                          'Theme',
+                          'button.theme'.tr,
                           style: TextStyle(
                             fontSize: 15,
                             color: AppColors.baseLight,
@@ -455,25 +457,43 @@ class AppDrawer extends StatelessWidget {
               ),
               SizedBox(height: 15),
               // Bar ubah bahasa
-              transBar(
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Icon(Icons.translate, color: AppColors.baseLight),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Language',
-                        style: TextStyle(
-                          fontSize: 15,
+              Obx(
+                () => transBar(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<Locale>(
+                        isExpanded: true,
+                        value: languageController.selectedLocale.value,
+                        dropdownColor: AppColors.fillTrans, // biar senada
+                        borderRadius: BorderRadius.circular(16),
+                        items: languageController.daftarBahasa.map((bahasa) {
+                          return DropdownMenuItem(
+                            value: bahasa['locale'] as Locale,
+                            child: Text(
+                              bahasa['name'],
+                              style: TextStyle(
+                                color: AppColors
+                                    .baseLight, // sesuaikan dengan tema kamu
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (locale) {
+                          if (locale != null)
+                            languageController.gantiBahasa(locale);
+                        },
+                        icon: Icon(
+                          Icons.language_rounded,
                           color: AppColors.baseLight,
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
+
               SizedBox(height: 15),
               // Bar donasi
               transBar(
@@ -484,7 +504,7 @@ class AppDrawer extends StatelessWidget {
                       Icon(Icons.coffee_rounded, color: AppColors.baseLight),
                       const SizedBox(width: 5),
                       Text(
-                        'Buy me a coffee',
+                        'button.donation'.tr,
                         style: TextStyle(
                           fontSize: 15,
                           color: AppColors.baseLight,
