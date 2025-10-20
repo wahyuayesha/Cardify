@@ -11,7 +11,7 @@
 
 ## 🧠 What is Cardify?
 
-**Cardify** is a smart learning app that transforms your **notes** — from **text or images** — into **flashcards** using **Gemini AI**.  
+**Cardify** is a smart learning app that transforms your **notes** from **text or images** into **flashcards** using **Gemini AI**.  
 It helps you turn your study materials into interactive flashcards effortlessly, so you can learn, review, and retain knowledge more effectively.
 
 ---
@@ -23,7 +23,7 @@ It helps you turn your study materials into interactive flashcards effortlessly,
 - 🧩 Engaging **learning sessions** designed for effective memorization  
 - 🌍 Supports **English, Indonesian, Russian, Korean, and Spanish**  
 - 🎨 Elegant and modern **UI/UX** for a calm learning experience  
-- 🌗 **Light and dark modes** — perfect for any environment  
+- 🌗 **Light and dark modes**, perfect for any environment  
 - 💡 Built to help students, language learners, and knowledge seekers everywhere  
 
 ---
