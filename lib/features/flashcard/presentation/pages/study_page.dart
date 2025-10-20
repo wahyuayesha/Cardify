@@ -350,7 +350,7 @@ class _StudyPageState extends State<StudyPage> {
                                 children: [
                                   SizedBox(width: 30),
                                   Text(
-                                    'notice2.content2'.tr,
+                                    'notice1.content2'.tr,
                                     style: TextStyle(
                                       color: AppColors.baseLight,
                                       fontSize: 12,
@@ -362,7 +362,7 @@ class _StudyPageState extends State<StudyPage> {
                                 children: [
                                   SizedBox(width: 30),
                                   Text(
-                                    'notice3.content3'.tr,
+                                    'notice1.content3'.tr,
                                     style: TextStyle(
                                       color: AppColors.baseLight,
                                       fontSize: 12,

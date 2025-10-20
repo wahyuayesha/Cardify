@@ -51,7 +51,7 @@ const Map<String, String> enUS = {
   'dialog.confirm' : 'Delete',
 
   // flashcard list
-  'flashcard.title': 'Flashcards',
+  'flashcard.title': 'Packs',
   'flashcard.search' : 'Search Flashcard',
   'flashcard.emptySub': 'No Flashcards Found',
   'flashcard.emptyDesc':
@@ -64,6 +64,7 @@ const Map<String, String> enUS = {
   'notice1.content2': 'Swipe left for the next card',
   'notice1.content3': 'Flag a card to review later',
   'button.finish': 'Finish',
+  'button.cancel' : 'Cancel',
   'button.shuffle': 'Shuffle',
 
   // dialog

@@ -53,7 +53,7 @@ class MyDialog extends StatelessWidget {
               Expanded(
                 child: PrimaryButton(
                   onPressed: () => Get.back(),
-                  text: 'Cancel',
+                  text: 'button.cancel'.tr,
                   borderRadius: 18,
                 ),
               ),

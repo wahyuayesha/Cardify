@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cardify/core/const/colors.dart';
+import 'package:cardify/core/const/config.dart';
 import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/core/functions/time_converter.dart';
 import 'package:cardify/core/widgets/card_button.dart';
@@ -11,12 +12,14 @@ import 'package:cardify/features/flashcard/presentation/controller/language_cont
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/time_controller.dart';
 import 'package:cardify/features/flashcard/presentation/pages/detail_page.dart';
+import 'package:cardify/features/flashcard/presentation/pages/flashcards_page.dart';
 import 'package:cardify/features/generate_flashcard/presentation/pages/paste_page.dart';
 import 'package:cardify/features/generate_flashcard/presentation/pages/photo_page.dart';
 import 'package:cardify/features/main/presentation/controller/navbar_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -185,7 +188,8 @@ class HomePage extends StatelessWidget {
                       color: AppColors.baseLight,
                     ),
                     onPressed: () {
-                      navbarController.setOnItemTaped(1);
+                      // navbarController.setOnItemTaped(1);
+                      Get.to(FlashcardsPage());
                     },
                   ),
                   const SizedBox(height: 35),
@@ -497,21 +501,35 @@ class AppDrawer extends StatelessWidget {
               SizedBox(height: 15),
               // Bar donasi
               transBar(
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Icon(Icons.coffee_rounded, color: AppColors.baseLight),
-                      const SizedBox(width: 5),
-                      Text(
-                        'button.donation'.tr,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: AppColors.baseLight,
-                          fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: () async {
+                    const url = AppConfig.donationLink; 
+                    if (await canLaunchUrl(Uri.parse(url))) {
+                      await launchUrl(
+                        Uri.parse(url),
+                        mode: LaunchMode
+                            .externalApplication, // buka di browser eksternal
+                      );
+                    } else {
+                      Get.snackbar('Error', 'Tidak bisa membuka tautan');
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.coffee_rounded, color: AppColors.baseLight),
+                        const SizedBox(width: 5),
+                        Text(
+                          'button.donation'.tr,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.baseLight,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

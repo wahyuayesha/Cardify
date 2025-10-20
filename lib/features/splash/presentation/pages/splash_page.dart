@@ -1,6 +1,7 @@
 import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
+import 'package:cardify/features/flashcard/presentation/pages/home_page.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:cardify/features/onboard/presentation/controller/onboard_controller.dart';
 import 'package:cardify/features/onboard/presentation/pages/onboard_page.dart';
@@ -51,7 +52,7 @@ class _SplashPageState extends State<SplashPage> {
       );
     } else {
       Get.off(
-        MainPage(),
+        HomePage(),
         transition: Transition.fade,
         duration: Duration(seconds: 3),
       );

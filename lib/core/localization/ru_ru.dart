@@ -50,7 +50,7 @@ const Map<String, String> ruRU = {
   'dialog.confirm': 'Удалить',
 
   // список карточек
-  'flashcard.title': 'Карточки',
+  'flashcard.title': 'Пакеты',
   'flashcard.search': 'Поиск карточек',
   'flashcard.emptySub': 'Карточки не найдены',
   'flashcard.emptyDesc':
@@ -60,9 +60,10 @@ const Map<String, String> ruRU = {
   // страница обучения
   'notice1.title': 'Как использовать:',
   'notice1.content1': 'Нажмите на карточку, чтобы увидеть ответ',
-  'notice1.content2': 'Смахните влево, чтобы перейти к следующей карточке',
+  'notice1.content2': 'Смахните влево',
   'notice1.content3': 'Отметьте карточку, чтобы повторить позже',
-  'button.finish': 'Завершить',
+  'button.finish': 'Готово',
+  'button.cancel': 'Отмена',  
   'button.shuffle': 'Перемешать',
 
   // диалог обучения

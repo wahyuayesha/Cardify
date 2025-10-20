@@ -50,7 +50,7 @@ const Map<String, String> esES = {
   'dialog.confirm': 'Eliminar',
 
   // lista de flashcards
-  'flashcard.title': 'Tarjetas',
+  'flashcard.title': 'Paquetes',
   'flashcard.search': 'Buscar tarjeta',
   'flashcard.emptySub': 'No se encontraron tarjetas',
   'flashcard.emptyDesc':
@@ -63,6 +63,7 @@ const Map<String, String> esES = {
   'notice1.content2': 'Desliza a la izquierda para la siguiente tarjeta',
   'notice1.content3': 'Marca una tarjeta para revisar más tarde',
   'button.finish': 'Finalizar',
+  'button.cancel': 'Cancelar',     
   'button.shuffle': 'Mezclar',
 
   // diálogo de estudio
