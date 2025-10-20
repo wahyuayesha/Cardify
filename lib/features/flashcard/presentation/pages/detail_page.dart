@@ -10,6 +10,7 @@ import 'package:cardify/core/widgets/svg_icon.dart';
 import 'package:cardify/features/flashcard/domain/entities/pack_entity.dart';
 import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
 import 'package:cardify/features/flashcard/presentation/controller/theme_controller.dart';
+import 'package:cardify/features/flashcard/presentation/pages/home_page.dart';
 import 'package:cardify/features/flashcard/presentation/pages/study_page.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';
@@ -297,7 +298,7 @@ class DetailPage extends StatelessWidget {
                                       await flashcardController
                                           .deleteFlashcardsPack(cardPack.id)
                                           .then((_) {
-                                            Get.offAll(MainPage());
+                                            Get.offAll(HomePage());
                                           });
                                     },
                                   ),

@@ -50,7 +50,7 @@ const Map<String, String> idID = {
   'dialog.confirm': 'Hapus',
 
   // daftar flashcard
-  'flashcard.title': 'Flashcard',
+  'flashcard.title': 'Paket',
   'flashcard.search': 'Cari Flashcard',
   'flashcard.emptySub': 'Tidak Ada Flashcard Ditemukan',
   'flashcard.emptyDesc':
@@ -63,6 +63,7 @@ const Map<String, String> idID = {
   'notice1.content2': 'Geser ke kiri untuk kartu berikutnya',
   'notice1.content3': 'Tandai kartu untuk dipelajari lagi nanti',
   'button.finish': 'Selesai',
+  'button.cancel': 'Batal',  
   'button.shuffle': 'Acak',
 
   // dialog belajar

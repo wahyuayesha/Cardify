@@ -1,6 +1,7 @@
 import 'package:cardify/core/const/colors.dart';
 import 'package:cardify/core/const/gradients.dart';
 import 'package:cardify/core/widgets/primary_button.dart';
+import 'package:cardify/features/flashcard/presentation/pages/home_page.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
 import 'package:cardify/features/onboard/presentation/controller/onboard_controller.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _OnboardPageState extends State<OnboardPage> {
     return Scaffold(
       body: PageView(
         controller: controller,
-        children: [cardIntro(), badgeIntro()],
+        children: [cardIntro(), studyIntro()],
       ),
     );
   }
@@ -115,7 +116,7 @@ class _OnboardPageState extends State<OnboardPage> {
     );
   }
 
-  Widget badgeIntro() {
+  Widget studyIntro() {
     return Stack(
       children: [
         Container(decoration: BoxDecoration(gradient: AppGradients.background)),
@@ -126,7 +127,7 @@ class _OnboardPageState extends State<OnboardPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Image.asset(
-                'assets/images/decoration/intoduction2.png',
+                'assets/images/decoration/intoduction3.png',
                 scale: 3.8,
               ),
 
@@ -159,7 +160,7 @@ class _OnboardPageState extends State<OnboardPage> {
                             children: [
                               const Spacer(),
                               Text(
-                                'Collect Badges',
+                                'Study Smarter',
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
@@ -167,7 +168,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                 ),
                               ),
                               Text(
-                                'Create flashcards, track your streak, and collect badges along the way',
+                                'Learn with ease through personalized flashcards designed to help you study anywhere, anytime.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -183,7 +184,7 @@ class _OnboardPageState extends State<OnboardPage> {
                                       .setNotFirstTimeUsecase()
                                       .then((_) {
                                         Get.off(
-                                          MainPage(),
+                                          HomePage(),
                                           transition: Transition.cupertino,
                                         );
                                       });

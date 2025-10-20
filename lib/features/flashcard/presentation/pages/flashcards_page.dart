@@ -11,7 +11,6 @@ import 'package:cardify/features/generate_flashcard/presentation/pages/photo_pag
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class FlashcardsPage extends StatelessWidget {
   FlashcardsPage({super.key});
   final FlashcardController flashcardController = Get.find();
@@ -21,13 +20,25 @@ class FlashcardsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
         title: Row(
           children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                onPressed: () => Get.back(),
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: themeController.isDark.value
+                      ? AppColors.baseLight
+                      : AppColors.baseDark,
+                ),
+              ),
+            ),
             Text(
               'flashcard.title'.tr,
               style: TextStyle(
@@ -175,7 +186,7 @@ class FlashcardsPage extends StatelessWidget {
                     Get.to(PhotoPage(), transition: Transition.cupertino);
                   },
                   text: 'button.create'.tr,
-                  width: 160,
+                  width: 170,
                   height: 40,
                 ),
               ],

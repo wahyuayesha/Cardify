@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cardify/features/flashcard/presentation/controller/flashcard_controller.dart';
+import 'package:cardify/features/flashcard/presentation/pages/home_page.dart';
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_image.dart';
 import 'package:cardify/features/generate_flashcard/domain/usecases/create_flashcard_text.dart';
 import 'package:cardify/features/main/presentation/pages/main_page.dart';
@@ -54,7 +55,7 @@ class GenerateController extends GetxController {
           backgroundColor: Colors.green.withOpacity(0.8),
           colorText: Colors.white,
         );
-        Get.to(() => MainPage());
+        Get.to(() => HomePage());
         successMessage.value = '';
       }
     });

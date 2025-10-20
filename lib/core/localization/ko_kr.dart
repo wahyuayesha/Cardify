@@ -48,7 +48,7 @@ const Map<String, String> koKR = {
   'dialog.confirm': '삭제',
 
   // 플래시카드 목록
-  'flashcard.title': '플래시카드',
+  'flashcard.title': '팩스',
   'flashcard.search': '플래시카드 검색',
   'flashcard.emptySub': '플래시카드를 찾을 수 없습니다',
   'flashcard.emptyDesc': '플래시카드 팩이 비어 있습니다. 아래에서 첫 번째 플래시카드를 만들어보세요.',
@@ -60,6 +60,7 @@ const Map<String, String> koKR = {
   'notice1.content2': '왼쪽으로 스와이프하여 다음 카드로 이동하세요',
   'notice1.content3': '나중에 복습할 카드는 플래그하세요',
   'button.finish': '완료',
+  'button.cancel': '취소',     
   'button.shuffle': '섞기',
 
   // 공부 종료 다이얼로그
