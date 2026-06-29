@@ -68,3 +68,30 @@ By turning notes into interactive flashcards, Cardify:
 - **Flutter Intl** — for multilingual localization  
 
 ---
+
+## 📥 Download App
+
+Try Cardify directly without building from source.
+
+🔗 **Download APK:**
+[Google Drive](https://drive.google.com/drive/folders/1tJFvqIfbdS7bk6Ug7AMnbCIStUQAyAdx?usp=sharing)
+
+> Enable **Install from Unknown Sources** on Android if required.
+
+---
+
+## 🤝 Contributing
+
+Contributions, ideas, and feedback are welcome.
+
+1. Fork this repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a Pull Request
+
+---
+
+## ⭐ Support
+
+If you find Cardify useful, consider giving this repository a star to support the project.
+
