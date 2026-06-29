@@ -20,7 +20,8 @@ It helps you turn your study materials into interactive flashcards effortlessly,
 Many students and self-learners struggle with:
 - Unstructured and scattered study notes  
 - Time-consuming manual creation of flashcards  
-- Difficulty retaining information from passive reading  
+- Difficulty retaining information from passive reading
+- Limited flexibility to study anytime and anywhere
 
 As a result, learning becomes inefficient and less engaging.
 
@@ -31,7 +32,8 @@ As a result, learning becomes inefficient and less engaging.
 Cardify simplifies the learning process by:
 - Automatically converting **text and image notes** into structured flashcards using **Gemini AI**  
 - Extracting text from images through **Google ML Kit**  
-- Presenting content in interactive learning sessions designed for active recall  
+- Presenting content in interactive learning sessions designed for active recall
+- Enabling learners to access and review digital flashcards anytime, anywhere
 
 This approach reduces manual effort while improving learning efficiency.
 
